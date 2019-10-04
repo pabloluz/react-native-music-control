@@ -416,23 +416,46 @@ RCT_EXPORT_METHOD(observeAudioInterruptions:(BOOL) observe){
 }
 
 - (void)audioInterrupted:(NSNotification *)notification {
-    if (!self.audioInterruptionsObserved) {
-        return;
-    }
-    NSInteger interruptionType = [notification.userInfo[AVAudioSessionInterruptionTypeKey] integerValue];
-    NSInteger interruptionOption = [notification.userInfo[AVAudioSessionInterruptionOptionKey] integerValue];
-    bool delayedSuspendedNotification = false;
-    if(@available(iOS 10.0, *))
-        if([notification.userInfo objectForKey:AVAudioSessionInterruptionWasSuspendedKey])
-            delayedSuspendedNotification = [notification.userInfo[AVAudioSessionInterruptionWasSuspendedKey] boolValue];
     
-    if (interruptionType == AVAudioSessionInterruptionTypeBegan && !delayedSuspendedNotification) {
-        // Playback interrupted by an incoming phone call.
-        [self sendEvent:@"pause"];
+    
+    
+    
+    @try {
+        
+        if (!self.audioInterruptionsObserved) {
+             return;
+         }
+        
+
+        if(self.audioInterruptionsObserved && notification.userInfo != nil && [notification.userInfo objectForKey:AVAudioSessionInterruptionTypeKey] && [notification.userInfo objectForKey:AVAudioSessionInterruptionOptionKey]) {
+           
+            NSInteger interruptionType = [notification.userInfo[AVAudioSessionInterruptionTypeKey] integerValue];
+            NSInteger interruptionOption = [notification.userInfo[AVAudioSessionInterruptionOptionKey] integerValue];
+           
+            bool delayedSuspendedNotification = false;
+           
+            if(@available(iOS 10.3, *))
+                if([notification.userInfo objectForKey:AVAudioSessionInterruptionWasSuspendedKey]) {
+                delayedSuspendedNotification = [notification.userInfo[AVAudioSessionInterruptionWasSuspendedKey] boolValue];
+            }
+           
+            //bool delayedSuspendedNotification = (@available(iOS 10.0, *)) && [notification.userInfo[AVAudioSessionInterruptionWasSuspendedKey] boolValue];
+           
+            if (interruptionType == AVAudioSessionInterruptionTypeBegan && !delayedSuspendedNotification) {
+                // Playback interrupted by an incoming phone call.
+                [self sendEvent:@"pause"];
+            }
+            if (interruptionType == AVAudioSessionInterruptionTypeEnded &&
+                interruptionOption == AVAudioSessionInterruptionOptionShouldResume) {
+                [self sendEvent:@"play"];
+            }
+        }
+       
     }
-    if (interruptionType == AVAudioSessionInterruptionTypeEnded &&
-        interruptionOption == AVAudioSessionInterruptionOptionShouldResume) {
-        [self sendEvent:@"play"];
+    @catch (NSException *exception) {
+        NSLog(@"Audio interrupted exception %@", exception.reason);
+    }
+    @finally {
     }
 }
 
