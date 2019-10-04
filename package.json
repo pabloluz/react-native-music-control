@@ -26,7 +26,7 @@
     "name": "Tanguy Antoine"
   },
   "bugs": {
-    "url": "https://github.com/tanguyantoine/react-native-music-control/issues"
+    "url": "https://github.com/marf/react-native-music-control/issues"
   },
   "bundleDependencies": false,
   "deprecated": false,
@@ -44,7 +44,7 @@
     "lib/",
     "*.podspec"
   ],
-  "homepage": "https://github.com/tanguyantoine/react-native-music-control#readme",
+  "homepage": "https://github.com/marf/react-native-music-control#readme",
   "keywords": [
     "react",
     "react-native",
@@ -62,7 +62,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tanguyantoine/react-native-music-control.git"
+    "url": "git+https://github.com/marf/react-native-music-control.git"
   },
   "scripts": {
     "prepack": "tsc -p tsconfig.json",
