@@ -138,9 +138,7 @@ RCT_EXPORT_METHOD(enableControl:(NSString *) controlName enabled:(BOOL) enabled 
         
     } else if ([controlName isEqual: @"changePlaybackPosition"]) {
         if(@available(iOS 9.1, *))
-        {
-            [self toggleHandler:remoteCenter.changePlaybackPositionCommand withSelector:@selector(onChangePlaybackPosition:) enabled:false];
-        
+        {   
             [self toggleHandler:remoteCenter.changePlaybackPositionCommand withSelector:@selector(onChangePlaybackPosition:) enabled:enabled];
         }
         
