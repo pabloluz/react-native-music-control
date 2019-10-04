@@ -411,7 +411,7 @@ RCT_EXPORT_METHOD(observeAudioInterruptions:(BOOL) observe){
         dispatch_async(dispatch_get_main_queue(), ^{
             
             // Check if URL wasn't changed in the meantime
-            if (![artworkUrl isEqual:self.artworkUrl]) {
+            if ([artworkUrl isEqual:self.artworkUrl]) {
                 return;
             }
             
