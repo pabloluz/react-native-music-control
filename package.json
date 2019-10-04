@@ -65,7 +65,7 @@
     "url": "git+https://github.com/marf/react-native-music-control.git"
   },
   "scripts": {
-    "prepack": "tsc -p tsconfig.json",
+    "prepack": "npm i && tsc -p tsconfig.json && rm -rf node_modules/",
     "semantic-release": "semantic-release",
     "semantic-release:ci": "semantic-release --no-ci",
     "start": "tsc -p tsconfig.json -w",
