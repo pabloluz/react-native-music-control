@@ -92,8 +92,8 @@ RCT_EXPORT_METHOD(updatePlayback:(NSDictionary *) originalDetails)
     
     center.nowPlayingInfo = [self update:mediaDict with:details andSetDefaults:false];
     
-    // Playback state is separated in 11+
-    if (@available(iOS 11.0, *)) {
+    // Playback state is separated in 13+
+    if (@available(iOS 13.0, *)) {
         if ([state isEqual:MEDIA_STATE_PLAYING]) {
             center.playbackState = MPNowPlayingPlaybackStatePlaying;
         } else if ([state isEqual:MEDIA_STATE_PAUSED]) {
@@ -137,7 +137,12 @@ RCT_EXPORT_METHOD(enableControl:(NSString *) controlName enabled:(BOOL) enabled 
         [self toggleHandler:remoteCenter.playCommand withSelector:@selector(onPlay:) enabled:enabled];
         
     } else if ([controlName isEqual: @"changePlaybackPosition"]) {
-        [self toggleHandler:remoteCenter.changePlaybackPositionCommand withSelector:@selector(onChangePlaybackPosition:) enabled:enabled];
+        if(@available(iOS 9.1, *))
+        {
+            [self toggleHandler:remoteCenter.changePlaybackPositionCommand withSelector:@selector(onChangePlaybackPosition:) enabled:false];
+        
+            [self toggleHandler:remoteCenter.changePlaybackPositionCommand withSelector:@selector(onChangePlaybackPosition:) enabled:enabled];
+        }
         
     } else if ([controlName isEqual: @"stop"]) {
         [self toggleHandler:remoteCenter.stopCommand withSelector:@selector(onStop:) enabled:enabled];
@@ -146,10 +151,15 @@ RCT_EXPORT_METHOD(enableControl:(NSString *) controlName enabled:(BOOL) enabled 
         [self toggleHandler:remoteCenter.togglePlayPauseCommand withSelector:@selector(onTogglePlayPause:) enabled:enabled];
         
     } else if ([controlName isEqual: @"enableLanguageOption"]) {
+        if(@available(iOS 9.1, *))
+        {
         [self toggleHandler:remoteCenter.enableLanguageOptionCommand withSelector:@selector(onEnableLanguageOption:) enabled:enabled];
-        
+        }
     } else if ([controlName isEqual: @"disableLanguageOption"]) {
+        if(@available(iOS 9.1, *))
+        {
         [self toggleHandler:remoteCenter.disableLanguageOptionCommand withSelector:@selector(onDisableLanguageOption:) enabled:enabled];
+        }
         
     } else if ([controlName isEqual: @"nextTrack"]) {
         [self toggleHandler:remoteCenter.nextTrackCommand withSelector:@selector(onNextTrack:) enabled:enabled];
@@ -249,11 +259,18 @@ RCT_EXPORT_METHOD(observeAudioInterruptions:(BOOL) observe){
     [self resetNowPlaying];
     [self toggleHandler:remoteCenter.pauseCommand withSelector:@selector(onPause:) enabled:false];
     [self toggleHandler:remoteCenter.playCommand withSelector:@selector(onPlay:) enabled:false];
-    [self toggleHandler:remoteCenter.changePlaybackPositionCommand withSelector:@selector(onChangePlaybackPosition:) enabled:false];
+    if(@available(iOS 9.1, *))
+    {
+        [self toggleHandler:remoteCenter.changePlaybackPositionCommand withSelector:@selector(onChangePlaybackPosition:) enabled:false];
+    }
     [self toggleHandler:remoteCenter.stopCommand withSelector:@selector(onStop:) enabled:false];
     [self toggleHandler:remoteCenter.togglePlayPauseCommand withSelector:@selector(onTogglePlayPause:) enabled:false];
-    [self toggleHandler:remoteCenter.enableLanguageOptionCommand withSelector:@selector(onEnableLanguageOption:) enabled:false];
-    [self toggleHandler:remoteCenter.disableLanguageOptionCommand withSelector:@selector(onDisableLanguageOption:) enabled:false];
+    if(@available(iOS 9.1, *))
+    {
+            [self toggleHandler:remoteCenter.enableLanguageOptionCommand withSelector:@selector(onEnableLanguageOption:) enabled:false];
+        
+            [self toggleHandler:remoteCenter.disableLanguageOptionCommand withSelector:@selector(onDisableLanguageOption:) enabled:false];
+    }
     [self toggleHandler:remoteCenter.nextTrackCommand withSelector:@selector(onNextTrack:) enabled:false];
     [self toggleHandler:remoteCenter.previousTrackCommand withSelector:@selector(onPreviousTrack:) enabled:false];
     [self toggleHandler:remoteCenter.seekForwardCommand withSelector:@selector(onSeekForward:) enabled:false];
