@@ -102,7 +102,7 @@ RCT_EXPORT_METHOD(updatePlayback:(NSDictionary *) originalDetails)
             center.playbackState = MPNowPlayingPlaybackStateStopped;
         }
     }
-    
+     
     NSString *artworkUrl = [self getArtworkUrl:[originalDetails objectForKey:@"artwork"]];
     [self updateArtworkIfNeeded:artworkUrl];
 }
@@ -409,7 +409,7 @@ RCT_EXPORT_METHOD(observeAudioInterruptions:(BOOL) observe){
         dispatch_async(dispatch_get_main_queue(), ^{
             
             // Check if URL wasn't changed in the meantime
-            if ([artworkUrl isEqual:self.artworkUrl]) {
+            if (![artworkUrl isEqual:self.artworkUrl]) {
                 return;
             }
             
