@@ -432,9 +432,6 @@ RCT_EXPORT_METHOD(observeAudioInterruptions:(BOOL) observe){
 
 - (void)audioInterrupted:(NSNotification *)notification {
     
-    
-    
-    
     @try {
         
         if (!self.audioInterruptionsObserved) {
@@ -442,16 +439,16 @@ RCT_EXPORT_METHOD(observeAudioInterruptions:(BOOL) observe){
          }
         
 
-        if(self.audioInterruptionsObserved && notification.userInfo != nil && [notification.userInfo objectForKey:AVAudioSessionInterruptionTypeKey] && [notification.userInfo objectForKey:AVAudioSessionInterruptionOptionKey]) {
+        if(self.audioInterruptionsObserved && notification.userInfo != nil && [notification.userInfo objectForKey:AVAudioSessionInterruptionTypeKey]) {
            
             NSInteger interruptionType = [notification.userInfo[AVAudioSessionInterruptionTypeKey] integerValue];
             NSInteger interruptionOption = [notification.userInfo[AVAudioSessionInterruptionOptionKey] integerValue];
            
-            bool delayedSuspendedNotification = false;
+            BOOL delayedSuspendedNotification = NO;
            
             if(@available(iOS 10.3, *))
                 if([notification.userInfo objectForKey:AVAudioSessionInterruptionWasSuspendedKey]) {
-                delayedSuspendedNotification = [notification.userInfo[AVAudioSessionInterruptionWasSuspendedKey] boolValue];
+                delayedSuspendedNotification = (long)[notification.userInfo objectForKey:AVAudioSessionInterruptionWasSuspendedKey] == 1;
             }
            
             //bool delayedSuspendedNotification = (@available(iOS 10.0, *)) && [notification.userInfo[AVAudioSessionInterruptionWasSuspendedKey] boolValue];
