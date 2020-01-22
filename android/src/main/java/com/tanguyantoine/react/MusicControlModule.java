@@ -171,6 +171,7 @@ public class MusicControlModule extends ReactContextBaseJavaModule implements Co
         }
         nb = new NotificationCompat.Builder(context, CHANNEL_ID);
         nb.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        nb.setPriority(NotificationCompat.PRIORITY_HIGH);
 
         updateNotificationMediaStyle();
 
@@ -558,5 +559,9 @@ public class MusicControlModule extends ReactContextBaseJavaModule implements Co
         ALWAYS,
         PAUSED,
         NEVER
+    }
+    
+    public boolean isPlaying() {
+        return isPlaying;
     }
 }
