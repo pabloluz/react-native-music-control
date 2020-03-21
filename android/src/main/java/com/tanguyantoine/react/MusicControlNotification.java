@@ -186,14 +186,14 @@ public class MusicControlNotification {
         @Override
         public void onCreate() {
             super.onCreate();
-        }
-
-        @Override
-        public int onStartCommand(Intent intent, int flags, int startId) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Notification notification = MusicControlModule.INSTANCE.notification.prepareNotification(MusicControlModule.INSTANCE.nb, false);
                 startForeground(NOTIFICATION_ID, notification);
             }
+        }
+
+        @Override
+        public int onStartCommand(Intent intent, int flags, int startId) {
             return START_NOT_STICKY;
         }
 
