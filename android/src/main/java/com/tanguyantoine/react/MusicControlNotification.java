@@ -216,6 +216,7 @@ public class MusicControlNotification {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 stopForeground(true);
             }
+            init = false;
             stopSelf(); // Stop the service as we won't need it anymore
         }
 
@@ -229,7 +230,7 @@ public class MusicControlNotification {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 stopForeground(true);
             }
-
+            init = false;
             stopSelf();
         }
     }
