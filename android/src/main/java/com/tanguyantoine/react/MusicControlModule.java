@@ -212,6 +212,10 @@ public class MusicControlModule extends ReactContextBaseJavaModule implements Co
 
         if (notification != null)
             notification.hide();
+
+        session.setActive(false);
+
+		/*
         session.release();
 
         ReactApplicationContext context = getReactApplicationContext();
@@ -233,6 +237,7 @@ public class MusicControlModule extends ReactContextBaseJavaModule implements Co
         nb = null;
 
         init = false;
+		*/
     }
 
     synchronized public void destroy() {
